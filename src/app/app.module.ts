@@ -9,11 +9,11 @@ import { LessonsComponent } from './lessons/lessons.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import {routesConfig} from "./routes.config";
-import { AuthService } from './services/auth.service';
 import {LessonsService} from "./services/lessons.service";
 
-
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/shareReplay';
 
 @NgModule({
   declarations: [

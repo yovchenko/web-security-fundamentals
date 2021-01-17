@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 
 export const ANONYMOUS_USER: User = {
-  id: undefined,
+  id: null,
   email: ''
 }
 
@@ -28,6 +28,8 @@ export class AuthService {
   }
 
   signUp(email: string, password: string) {
-
+    return this.http.post<User>("/api/signup", {email, password})
+          .shareReplay()
+          .do(user => this.subject.next(user));
   }
 }
