@@ -22,7 +22,7 @@ class InMemoryDatabase {
         const user: DbUser = {
             id,
             email,
-            passwordDigest,
+            passwordDigest
         };
 
         USERS[id] = user;

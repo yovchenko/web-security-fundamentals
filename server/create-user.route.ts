@@ -10,10 +10,10 @@ export function createUser(req: Request, res:Response) {
     const credentials = req.body;
 
     const errors = validatePassword(credentials.password);
-
+    console.log("errors server = " + errors);
     if(errors.length > 0) {
         res.status(400).json({errors});
-    }else
+    } else
     argon2.hash(credentials.password)
         .then(passwordDigest => {
             const user = db.createUser(credentials.email, passwordDigest);
