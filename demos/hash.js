@@ -2,7 +2,7 @@
 
 var crypto = require('crypto');
 
-var password = 'monkey';
+var password = '123456789';
 
 // we will use another hash other SHA-256 during the course, this is just for demo purposes
 var hash = crypto.createHash('sha256').update(password).digest('hex');
