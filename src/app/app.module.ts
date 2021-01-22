@@ -12,7 +12,6 @@ import {LessonsService} from "./services/lessons.service";
 
 import {AuthService} from "./services/auth.service";
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -17,12 +17,15 @@ export class LessonsComponent implements OnInit {
     lessons$: Observable<Lesson[]>;
     isLoggedIn$: Observable<boolean>;
 
-    constructor(private lessonsService: LessonsService, private authService: AuthService) {
-
+    constructor(
+        private lessonsService: LessonsService, 
+        private authService: AuthService
+        ) {
     }
 
     ngOnInit() {
-        this.lessons$ = this.lessonsService.loadAllLessons().pipe(catchError(err => observableOf([])));
+        this.lessons$ = this.lessonsService.loadAllLessons()
+                .pipe(catchError(err => observableOf([])));
         this.isLoggedIn$ = this.authService.isLoggedIn$;
     }
 

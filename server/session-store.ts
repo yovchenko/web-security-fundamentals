@@ -13,7 +13,11 @@ class SessionStore {
 
         const isSessionValid = session && session.isValid();
 
-        return isSessionValid ? session.user : null;
+        return this.isSessionValid(sessionId) ? session.user : null;
+    }
+    isSessionValid(sessionId: string): boolean {
+        const session = this.sessions[sessionId];
+        return session && session.isValid();
     }
 }
 

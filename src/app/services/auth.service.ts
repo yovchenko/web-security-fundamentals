@@ -29,9 +29,11 @@ export class AuthService {
 
     signUp(email:string, password:string ) {
 
-        return this.http.post<User>('/api/signup', {email, password}).pipe(
+        return this.http.post<User>('/api/signup', {email, password})
+        .pipe(
             shareReplay(),
-            tap(user => this.subject.next(user)),);
+            tap(user => this.subject.next(user))
+        );
 
     }
 
