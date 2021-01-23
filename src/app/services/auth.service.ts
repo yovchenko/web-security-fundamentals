@@ -13,7 +13,6 @@ export const ANONYMOUS_USER: User = {
 
 @Injectable()
 export class AuthService {
-
     private subject = new BehaviorSubject<User>(null);
 
     user$: Observable<User> = this.subject.asObservable().pipe(filter(user => Boolean(user)));
@@ -35,6 +34,14 @@ export class AuthService {
             tap(user => this.subject.next(user))
         );
 
+    }
+
+    login(email:string, password:string ) {
+        return this.http.post<User>('/api/login', {email, password})
+        .pipe(
+            shareReplay(),
+            tap(user => this.subject.next(user))
+        );
     }
 
     logout(): Observable<any> {
