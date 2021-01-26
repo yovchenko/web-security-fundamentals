@@ -3,8 +3,7 @@ import {Request, Response} from "express";
 import {db} from "./database";
 import * as argon2 from 'argon2';
 import {validatePassword} from "./password-validation";
-import moment = require("moment");
-import { createSessionToken } from "./security.utils";
+import {createSessionToken} from "./security.utils";
 
 
 
