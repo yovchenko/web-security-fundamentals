@@ -11,15 +11,23 @@ export function retrieveUserIdFromRequest(
 
         if(jwt) {
             handleSessionCookie(jwt, req)
-            .catch(error => console.error(error));
+            .then(() => { next() })
+            .catch(error => { 
+                console.error(error) 
+                next()
+            });
         }
-        next();
 }
 
 async function handleSessionCookie(jwt: string, req: Request) {
     try {   
         const payload = await decodeJwt(jwt);
-        req["userId"] = payload.sub;
+        Object.defineProperty(req, "userId", {
+            value: payload.sub,
+            enumerable: true,
+            configurable: true,
+            writable: false,
+          });
     } catch (error) {
         console.error("Could not extract user from the request", error)
     }  

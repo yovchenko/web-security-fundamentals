@@ -30,7 +30,7 @@ async function createUserAndSession(res:Response, credentials) {
     const passwordDigest = await argon2.hash(credentials.password);
 
     const user = db.createUser(credentials.email, passwordDigest);
-
+ 
     const sessionToken = await createSessionToken(String(user.id));
 
     res.cookie("SESSIONID", sessionToken, {httpOnly:true, secure:true});
