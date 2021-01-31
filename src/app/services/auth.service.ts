@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from "rxjs";
 import {User} from "../model/user";
 
 export const ANONYMOUS_USER: User = {
-    id: undefined,
+    id: null,
     email: ''
 }
 
@@ -14,7 +14,7 @@ export const ANONYMOUS_USER: User = {
 @Injectable()
 export class AuthService {
 
-    private subject = new BehaviorSubject<User>(undefined);
+    private subject = new BehaviorSubject<User>(null);
 
     user$: Observable<User> = this.subject.asObservable().pipe(filter(user => !!user));
 
@@ -24,7 +24,10 @@ export class AuthService {
 
     constructor(private http: HttpClient) {
         http.get<User>('/api/user')
-            .subscribe(user => this.subject.next(user ? user : ANONYMOUS_USER));
+            .subscribe(user => { 
+                console.log(user);
+                this.subject.next(user ? user : ANONYMOUS_USER)
+            });
     }
 
     signUp(email:string, password:string ) {

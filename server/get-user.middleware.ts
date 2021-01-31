@@ -16,7 +16,7 @@ export function retrieveUserIdFromRequest(
                 console.error(error) 
                 next()
             });
-        }
+        } else next();
 }
 
 async function handleSessionCookie(jwt: string, req: Request) {

@@ -13,16 +13,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 
 import {AuthService} from "./services/auth.service";
 
-
-
-
-
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
