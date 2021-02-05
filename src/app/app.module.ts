@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LessonsComponent } from './lessons/lessons.component';
@@ -23,6 +23,10 @@ import {AuthService} from "./services/auth.service";
   imports: [
     BrowserModule,
       HttpClientModule,
+      HttpClientXsrfModule.withOptions({
+        cookieName: "CSRF-TOKEN",
+        headerName: "x-xsrf-token"
+      }),
       RouterModule.forRoot(routesConfig),
       ReactiveFormsModule
   ],
