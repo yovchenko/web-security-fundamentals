@@ -13,8 +13,8 @@ export const ANONYMOUS_USER: User = {
 };
 
 const AUTH_CONFIG = {
-    clientID: 'hHhF4PWGY7vxLQH2HatJaUOertB1dDrU',
-    domain: "angularsecuritycourse.auth0.com"
+    clientID: 'Licu81pbSDkqRoRG0sARgNtbR3GdZuka',
+    domain: "dev-abbm6k2d.eu.auth0.com"
 };
 
 
@@ -37,11 +37,22 @@ export class AuthService {
     }
 
     login() {
-
+        this.auth0.authorize();
     }
 
     signUp() {
 
+    }
+
+    retrieveAuthInfoFromUrl() {
+        this.auth0.parseHash({ hash: window.location.hash }, function(err, authResult) {
+            if(err){
+                console.log("Could not parse the hash", err);
+                return;
+            }
+
+            console.log("Authentication successful, authResult: ", authResult);
+        });
     }
 
     logout() {
