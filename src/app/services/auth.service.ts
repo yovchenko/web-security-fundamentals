@@ -45,13 +45,17 @@ export class AuthService {
     }
 
     retrieveAuthInfoFromUrl() {
-        this.auth0.parseHash({ hash: window.location.hash }, function(err, authResult) {
+        this.auth0.parseHash({ hash: window.location.hash }, 
+            (err: Error, authResult: { idToken: string; })=> {
             if(err){
-                console.log("Could not parse the hash", err);
-                return;
+                console.error("Could not parse the hash", err);
+            } else if (authResult && authResult.idToken) {
+                window.location.hash = '';
+                console.log("Authentication successful, authResult: ", authResult);
+                this.setSession(authResult);
+                localStorage.setItem('id_token', authResult.idToken);
             }
 
-            console.log("Authentication successful, authResult: ", authResult);
         });
     }
 
@@ -63,10 +67,13 @@ export class AuthService {
         return false;
     }
 
+    private setSession(authResult: { idToken: string; }) {
+        localStorage.setItem('id_token', authResult.idToken);
+    }
+
     isLoggedOut() {
         return !this.isLoggedIn();
     }
-
 }
 
 
