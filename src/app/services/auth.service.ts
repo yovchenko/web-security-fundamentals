@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user";
@@ -32,7 +31,7 @@ export class AuthService {
     }
 
     login() {
-        this.auth0.authorize();
+        this.auth0.authorize({initialScreen: "login"});
     }
 
     signUp() {
