@@ -1,3 +1,5 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+import { shareReplay, filter, tap } from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user";
@@ -23,11 +25,18 @@ export class AuthService {
         clientID: AUTH_CONFIG.clientID,
         domain: AUTH_CONFIG.domain,
         responseType: 'token id_token',
-        redirectUri: 'https://localhost:4200/lessons'
+        redirectUri: 'https://localhost:4200/lessons',
+        scope: 'openid email'
     });
 
-    constructor(private http: HttpClient, private router: Router) {
+    private subject = new BehaviorSubject<User>(null);
 
+    user$: Observable<User> = this.subject.asObservable().pipe(filter(user => !null));
+
+    constructor(private http: HttpClient, private router: Router) {
+        if(this.isLoggedIn()) {
+            this.userInfo();
+        }
     }
 
     login() {
@@ -35,7 +44,7 @@ export class AuthService {
     }
 
     signUp() {
-
+        this.auth0.authorize({initialScreen: "signUp"});
     }
 
     retrieveAuthInfoFromUrl() {
@@ -47,10 +56,20 @@ export class AuthService {
                 window.location.hash = '';
                 console.log("Authentication successful, authResult: ", authResult);
                 this.setSession(authResult);
-                localStorage.setItem('id_token', authResult.idToken);
+                
+                this.userInfo();
             }
 
         });
+    }
+
+    userInfo() {
+        this.http.put<User>('/api/userinfo', null)
+        .pipe(
+            shareReplay(),
+            tap(user => this.subject.next(user))
+        )
+        .subscribe();
     }
 
     logout() {

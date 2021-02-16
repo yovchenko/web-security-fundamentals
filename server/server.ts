@@ -6,6 +6,7 @@ const jwt = require('express-jwt');
 import * as fs from 'fs';
 import * as https from 'https';
 import {readAllLessons} from "./read-all-lessons.route";
+import { userInfo } from './user-info.route';
 const bodyParser = require('body-parser');
 
 const app: Application = express();
@@ -44,9 +45,10 @@ app.use((err: { name: string; status: number; message: string; },
 app.route('/api/lessons')
     .get(readAllLessons);
 
+app.route('/api/userinfo')
+    .put(userInfo);
 
 if (options.secure) {
-
     const httpsServer = https.createServer({
         key: fs.readFileSync('key.pem'),
         cert: fs.readFileSync('cert.pem')
